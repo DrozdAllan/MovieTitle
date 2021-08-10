@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<div id="app">
+		<v-app v-cloak>
+			<v-app-bar short app>
+				<v-row class="justify-center">
+					<v-col cols="4">
+						<v-btn link href="/api" target="_blank">Api Doc</v-btn>
+					</v-col>
+					<v-col cols="4" class="text-center justify-center">
+						<v-btn color="primary" text link to="home">Rate My Movies !</v-btn>
+					</v-col>
+					<v-spacer/>
+				</v-row>
+			</v-app-bar>
+			<v-main>
+				<v-container fluid>
+					<router-view></router-view>
+				</v-container>
+			</v-main>
+		</v-app>
+	</div>
+{% endblock %}
