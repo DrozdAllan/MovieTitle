@@ -5,29 +5,41 @@
  * (and its CSS file) in your base layout (base.html.twig).
  */
 // any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.css';
+import "./styles/app.css";
 // start the Stimulus application
 
-
-import './bootstrap';
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import vuetify from './plugins/vuetify'
-import Home from './pages/Home'
+import "./bootstrap";
+import Vue from "vue";
+import VueCookies from 'vue-cookies';
+import VueRouter from "vue-router";
+import vuetify from "./plugins/vuetify";
+import Home from "./pages/Home";
+import MovieDetail from "./pages/MovieDetail";
+import CategoryDetail from "./pages/CategoryDetail";
 
 const routes = [
-  { path: '/', component: Home, name: 'home' },
-  { path: '*', redirect: '/' }
-]
+  { path: "/", component: Home, name: "Home" },
+  { path: "/movie/:id", component: MovieDetail, name: "MovieDetail" },
+  {
+    path: "/category/:id",
+    component: CategoryDetail,
+    name: "CategoryDetail",
+  },
+  { path: "*", redirect: "/" },
+];
 
 const router = new VueRouter({
-  mode: 'history',
-  base: '/app',
-  routes
-})
+  mode: "history",
+  base: "/app",
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    return { x: 0, y: 0 };
+  },
+});
 
-Vue.use(VueRouter)
+Vue.use(VueRouter, VueCookies);
+// Vue.use(VueCookies);
 new Vue({
   router,
-  vuetify
-}).$mount('#app')
+  vuetify,
+}).$mount("#app");

@@ -8,6 +8,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
@@ -15,7 +16,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  */
 #[
     ApiResource(
-        paginationItemsPerPage: 1
+        normalizationContext: ['groups' => ['read:CategoryDetail']],
     ),
     ApiFilter(SearchFilter::class, properties: ['name' => 'partial'])
 ]
@@ -26,16 +27,19 @@ class Category
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups('read:MovieDetail')]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups('read:CategoryDetail')]
     private $name;
 
     /**
      * @ORM\OneToMany(targetEntity=Movie::class, mappedBy="category")
      */
+    #[Groups('read:CategoryDetail')]
     private $movies;
 
     public function __construct()

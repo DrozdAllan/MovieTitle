@@ -4,17 +4,82 @@
       <v-spacer />
       <v-col>
         <p class="text-h4 text-center">Welcome to Rate My Movies !</p>
-        <p class="text-h4 text-center">Feel free to do so</p>
-        <p class="text-h4 text-center">(you must login to review movies)</p>
+        <p class="text-h5 text-center">Feel free to do so</p>
       </v-col>
       <v-col>
+        <v-menu
+          :close-on-content-click="false"
+          bottom
+          offset-y
+          nudge-bottom="5"
+          rounded="lg"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn color="primary" dark v-bind="attrs" v-on="on">
+              Login
+            </v-btn>
+          </template>
+
+          <v-card>
+            <v-container>
+              <v-col cols="12">
+                <v-text-field
+                  :counter="10"
+                  label="Username"
+                  v-model="username"
+                ></v-text-field>
+              </v-col>
+
+              <v-col cols="12">
+                <v-text-field
+                  :counter="10"
+                  label="Password"
+                  v-model="password"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-btn @click="login">Login</v-btn>
+              </v-col>
+            </v-container>
+          </v-card>
+        </v-menu>
+        <v-btn>Account</v-btn>
+
         <v-btn v-if="admin === true" link to="admin">administrer</v-btn>
       </v-col>
     </v-row>
+    <p>Movies of the week</p>
     <v-row>
-      <v-col>
-        Movies of the week
-      </v-col>
+      <v-img
+        max-height="300"
+        max-width="200"
+        src="https://picsum.photos/200/300"
+      ></v-img>
+      <v-img
+        max-height="300"
+        max-width="200"
+        src="https://picsum.photos/200/300"
+      ></v-img>
+      <v-img
+        max-height="300"
+        max-width="200"
+        src="https://picsum.photos/200/300"
+      ></v-img>
+      <v-img
+        max-height="300"
+        max-width="200"
+        src="https://picsum.photos/200/300"
+      ></v-img>
+      <v-img
+        max-height="300"
+        max-width="200"
+        src="https://picsum.photos/200/300"
+      ></v-img>
+      <v-img
+        max-height="300"
+        max-width="200"
+        src="https://picsum.photos/200/300"
+      ></v-img>
     </v-row>
     <v-row>
       <v-col cols="6">
@@ -41,9 +106,17 @@
       </v-col>
       <v-col v-if="searchResult !== ''">
         <v-card>
-          <v-card-title> There is {{ numberResult }} result<span v-if="numberResult >= 2">s</span></v-card-title>
+          <v-card-title>
+            There is {{ numberResult }} result<span v-if="numberResult >= 2"
+              >s</span
+            ></v-card-title
+          >
           <v-card-text v-for="result in searchResult" :key="result.id">
             Name: {{ result.title }} Synopsis: {{ result.synopsis }}
+            <router-link
+              :to="{ name: 'MovieDetail', params: { id: result.id } }"
+              >Details</router-link
+            >
           </v-card-text>
         </v-card>
       </v-col>
@@ -65,6 +138,8 @@
       numberResult: "",
       movieCategories: ["Western", "Noir", "Fantasy"],
       admin: false,
+      username: "",
+      password: "",
     }),
     methods: {
       findMovie() {
@@ -87,6 +162,25 @@
           this.searchResult = data["hydra:member"];
           this.numberResult = data["hydra:totalItems"];
         });
+      },
+      login() {
+        axios({
+          method: "POST",
+          url: "/login",
+          data: {
+            username: this.username,
+            password: this.password,
+          },
+        })
+        // axios
+        //   .post("/login", {
+        //     username: this.username,
+        //     password: this.password,
+        //   })
+          .then((response) => {
+            const data = response;
+            console.log(data);
+          });
       },
     },
     // mounted() {

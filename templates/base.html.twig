@@ -1,19 +1,19 @@
- 
 <!DOCTYPE html>
 <html>
-   <head>
-       <meta charset="UTF-8">
-       <title>{% block title %}Welcome!{% endblock %}</title>
-           {{ encore_entry_link_tags('app') }}
-           <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-           <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
-       {% block stylesheets %}
-       {% endblock %}
-   </head>
-   <body>
-   {% block body %}{% endblock %}
-           {{ encore_entry_script_tags('app') }}
-       {% block javascripts %}
-       {% endblock %}
-   </body>
-</html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		{{ encore_entry_link_tags('app') }}
+		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet"> {% block stylesheets %}{% endblock %}
+		</head>
+		<body>
+			{% block body %}{% endblock %}
+			<script src="https://unpkg.com/vue-cookies@1.7.4/vue-cookies.js"></script>
+			{{ encore_entry_script_tags('app') }}
+			{% block javascripts %}{% endblock %}
+		</body>
+	</html>
