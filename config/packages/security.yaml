@@ -16,16 +16,14 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            lazy: true
-            provider: app_user_provider
+
+        login:
+            stateless: true
             json_login:
                 check_path: app_login
-            # entry_point: App\Security\AppAuthenticator
-            # logout:
-            #     path: app_logout
-            #     # where to redirect after logout
-            #     # target: app_any_route
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+    
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -38,5 +36,8 @@ security:
     access_control:
         - { path: ^/api/docs, roles: PUBLIC_ACCESS }
 
+        - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/app, roles: PUBLIC_ACCESS }
+
+        
         - { path: ^/profile, roles: IS_AUTHENTICATED_FULLY }

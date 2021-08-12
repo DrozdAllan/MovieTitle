@@ -39,6 +39,9 @@
               </v-col>
               <v-col cols="12">
                 <v-btn @click="login">Login</v-btn>
+                <router-link to="register" class="text-caption"
+                  >Not registered yet ?</router-link
+                >
               </v-col>
             </v-container>
           </v-card>
@@ -172,32 +175,15 @@
             password: this.password,
           },
         })
-        // axios
-        //   .post("/login", {
-        //     username: this.username,
-        //     password: this.password,
-        //   })
           .then((response) => {
-            const data = response;
-            console.log(data);
+            this.$cookies.set("token", response.data.token, 0);
+          })
+          .catch((error) => {
+            if (error.response.status === 401) {
+              window.alert("bad credentials");
+            }
           });
       },
     },
-    // mounted() {
-    //   axios({
-    //     method: "POST",
-    //     url: "/admin",
-    //     data: {
-    //       cmd: "isConnected",
-    //     },
-    //   }).then(
-    //     (response) => {
-    //       this.admin = response.data;
-    //     },
-    //     (error) => {
-    //       console.log(error);
-    //     }
-    //   );
-    // },
   };
 </script>
