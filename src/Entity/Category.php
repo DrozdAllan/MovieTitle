@@ -17,6 +17,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 #[
     ApiResource(
         normalizationContext: ['groups' => ['read:CategoryDetail']],
+        itemOperations: ['GET']
     ),
     ApiFilter(SearchFilter::class, properties: ['name' => 'partial'])
 ]

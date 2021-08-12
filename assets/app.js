@@ -13,14 +13,17 @@ import Vue from "vue";
 import VueCookies from 'vue-cookies';
 import VueRouter from "vue-router";
 import vuetify from "./plugins/vuetify";
+import axios from "axios";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
+import Account from "./pages/Account";
 import MovieDetail from "./pages/MovieDetail";
 import CategoryDetail from "./pages/CategoryDetail";
 
 const routes = [
   { path: "/", component: Home, name: "Home" },
   { path: "/register", component: Register, name: "Register" },
+  { path: "/account", component: Account, name: "Account" },
   { path: "/movie/:id", component: MovieDetail, name: "MovieDetail" },
   {
     path: "/category/:id",
@@ -41,6 +44,8 @@ const router = new VueRouter({
 
 Vue.use(VueRouter);
 Vue.use(VueCookies);
+
+Vue.prototype.$axios = axios;
 
 new Vue({
   router,

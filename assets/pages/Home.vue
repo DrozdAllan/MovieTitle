@@ -8,6 +8,7 @@
       </v-col>
       <v-col>
         <v-menu
+          v-if="JWToken === null"
           :close-on-content-click="false"
           bottom
           offset-y
@@ -46,9 +47,10 @@
             </v-container>
           </v-card>
         </v-menu>
-        <v-btn>Account</v-btn>
 
-        <v-btn v-if="admin === true" link to="admin">administrer</v-btn>
+
+        <v-btn link to="account" v-else>Account</v-btn>
+
       </v-col>
     </v-row>
     <p>Movies of the week</p>
@@ -128,8 +130,6 @@
 </template>
 
 <script>
-  const axios = require("axios");
-
   export default {
     name: "Home",
     props: {},
@@ -143,6 +143,7 @@
       admin: false,
       username: "",
       password: "",
+      JWToken: "",
     }),
     methods: {
       findMovie() {
@@ -152,22 +153,19 @@
         } else if (this.movieTitle !== "") {
           parameters.title = this.movieTitle;
         }
-        axios({
+        this.$axios({
           method: "GET",
           url: "/api/movies",
           params: parameters,
         }).then((response) => {
           const data = response.data;
           console.log(data);
-          // this.movieTitle = data["title"];
-          // this.movieSynopsis = data["synopsis"];
-          // this.movieCategory = data["category"]["name"];
           this.searchResult = data["hydra:member"];
           this.numberResult = data["hydra:totalItems"];
         });
       },
       login() {
-        axios({
+        this.$axios({
           method: "POST",
           url: "/login",
           data: {
@@ -176,7 +174,9 @@
           },
         })
           .then((response) => {
-            this.$cookies.set("token", response.data.token, 0);
+            this.$cookies.set("JWToken", response.data.token, 0);
+            window.alert("Logged in !");
+            location.reload();
           })
           .catch((error) => {
             if (error.response.status === 401) {
@@ -185,5 +185,8 @@
           });
       },
     },
+    mounted() {
+      this.JWToken = this.$cookies.get("JWToken");
+    }
   };
 </script>

@@ -25,6 +25,12 @@ security:
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
     
 
+        # # If you want to require the jwt token for every api call, use :
+        # api:
+        #     pattern: ^/api
+        #     stateless: true
+        #     jwt: ~
+
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
@@ -40,4 +46,4 @@ security:
         - { path: ^/app, roles: PUBLIC_ACCESS }
 
         
-        - { path: ^/profile, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/account, roles: IS_AUTHENTICATED_FULLY }

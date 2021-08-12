@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 
 class SecurityController extends AbstractController
 {
@@ -34,6 +35,22 @@ class SecurityController extends AbstractController
         $em->flush();
 
         return new JsonResponse(null, response::HTTP_OK);
+    }
+
+     /**
+     * @Route("/decodeJWT", name="decodeJWT", methods={"POST"})
+     */
+    public function decodeJWT(Request $request, JWTEncoderInterface $jWTEncoder): Response
+    {
+        $JWT = json_decode($request->getContent());
+
+        $data = ($JWT->JWT);
+
+        $decodedData = $jWTEncoder->decode($data);
+
+        $response = $decodedData['apiKey'];
+
+        return new JsonResponse($response, response::HTTP_OK);
     }
 
     /**

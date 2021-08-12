@@ -15,7 +15,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[
     ApiResource(
         normalizationContext: ['groups' => ['read:MovieDetail']],
-        paginationItemsPerPage: 10
+        paginationItemsPerPage: 10,
+        itemOperations: [
+            'GET',
+            'POST' => [
+                'method' => 'post',
+                'security' => 'is_granted("ROLE_USER")',
+                'controller' => PatchController::class,
+                'openapi_context' => [
+                    'summary' => 'Update the rating of the Movie resource'
+                ]
+            ]
+        ]
     ),
     ApiFilter(SearchFilter::class, properties: ['title' => 'partial'])
 ]
@@ -51,6 +62,11 @@ class Movie
      */
     #[Groups('read:MovieDetail')]
     private $category;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $rating;
 
     public function getId(): ?int
     {
@@ -101,6 +117,18 @@ class Movie
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getRating(): ?float
+    {
+        return $this->rating;
+    }
+
+    public function setRating(?float $rating): self
+    {
+        $this->rating = $rating;
 
         return $this;
     }
