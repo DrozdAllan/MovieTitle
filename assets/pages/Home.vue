@@ -3,8 +3,8 @@
     <v-row>
       <v-spacer />
       <v-col>
-        <p class="text-h4 text-center">Welcome to Rate My Movies !</p>
-        <p class="text-h5 text-center">Feel free to do so</p>
+        <p class="text-h4 text-center">Welcome to Movies Title !</p>
+        <p class="text-h5 text-center">Get the name of your favorite movie in every language</p>
       </v-col>
       <v-col>
         <v-menu
@@ -92,13 +92,6 @@
           <v-text-field
             v-model="movieTitle"
             label="Search by title"
-            required
-            @keydown.enter="findMovie"
-          ></v-text-field>
-          <v-text-field
-            v-model="movieSynopsis"
-            :counter="10"
-            label="Search by synopsis"
             required
             @keydown.enter="findMovie"
           ></v-text-field>

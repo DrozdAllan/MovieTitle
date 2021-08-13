@@ -1,49 +1,60 @@
 security:
-    # https://symfony.com/doc/current/security/experimental_authenticators.html
-    enable_authenticator_manager: true
-    password_hashers:
-        App\Entity\User:
-            algorithm: auto
+  # https://symfony.com/doc/current/security/experimental_authenticators.html
+  enable_authenticator_manager: true
+  password_hashers:
+    App\Entity\User:
+      algorithm: auto
 
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
-    providers:
-        # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
-            entity:
-                class: App\Entity\User
-                property: username
-    firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+  # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+  providers:
+    # used to reload user from session & other features (e.g. switch_user)
+    app_user_provider:
+      entity:
+        class: App\Entity\User
+        property: username
 
-        login:
-            stateless: true
-            json_login:
-                check_path: app_login
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
-    
+    apiKeyProvider:
+      entity:
+        class: App\Entity\User
+        property: apiKey
 
-        # # If you want to require the jwt token for every api call, use :
-        # api:
-        #     pattern: ^/api
-        #     stateless: true
-        #     jwt: ~
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
+    login:
+      stateless: true
+      pattern: ^/login
+      provider: app_user_provider
+      json_login:
+        check_path: app_login
+        success_handler: lexik_jwt_authentication.handler.authentication_success
+        failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
+    patchMovie:
+      pattern: ^/api/updatemovies
+      provider: apiKeyProvider
+      stateless: true
+      custom_authenticators:
+        - App\Security\ApiKeyAuthenticator
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
-    access_control:
-        - { path: ^/api/docs, roles: PUBLIC_ACCESS }
+    # If you want to require the jwt token for api call, uncomment below and add IS_AUTHENTICATED_FULLY for roles in access_control :
+    # api:
+    #   pattern: ^/api
+    #   stateless: true
+    #   jwt: ~
+    # activate different ways to authenticate
+    # https://symfony.com/doc/current/security.html#firewalls-authentication
+    # https://symfony.com/doc/current/security/impersonating_user.html
+    # switch_user: true
 
-        - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/app, roles: PUBLIC_ACCESS }
+  # Easy way to control access for large sections of your site
+  # Note: Only the *first* access control that matches will be used
+  access_control:
+    - { path: ^/api/docs, roles: PUBLIC_ACCESS }
 
-        
-        - { path: ^/account, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/register, roles: PUBLIC_ACCESS }
+    - { path: ^/login, roles: PUBLIC_ACCESS }
+
+    - { path: ^/api/updatemovies, roles: IS_AUTHENTICATED_FULLY }

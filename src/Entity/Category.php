@@ -28,7 +28,6 @@ class Category
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups('read:MovieDetail')]
     private $id;
 
     /**
