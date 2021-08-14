@@ -21,14 +21,14 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
                 'openapi_context' => [
                     'summary' => 'hidden'
                 ]
-            ]
+            ],
         ],
         collectionOperations: [
             'GET' => [
                 'openapi_context' => [
                     'summary' => 'Get a movie from its german title'
                 ]
-            ]
+            ],
         ]
     ),
     ApiFilter(SearchFilter::class, properties: ['title' => 'partial'])
@@ -45,13 +45,13 @@ class DeTranslation
     /**
      * @ORM\OneToOne(targetEntity=Movie::class, inversedBy="deTranslation", cascade={"persist", "remove"})
      */
-    #[Groups(['read:deTranslation'])] 
+    #[Groups(['read:deTranslation'])]
     private $movie;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:deTranslation', 'read:MovieDetail'])] 
+    #[Groups(['read:deTranslation', 'read:MovieDetail'])]
     private $title;
 
     public function getId(): ?int

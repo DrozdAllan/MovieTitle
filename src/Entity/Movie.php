@@ -2,15 +2,14 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\MovieRepository;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use App\Controller\ReviewController;
+use App\Controller\MovieTranslationController;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ORM\Entity(repositoryClass=MovieRepository::class)
@@ -22,8 +21,38 @@ use Symfony\Component\Serializer\Annotation\Groups;
         itemOperations: [
             'GET',
             'PATCH' => [
-                'path' => '/updatemovies/{id}',
-            ]
+                'security' => "is_granted('ROLE_USER')",
+                'method' => 'PATCH',
+                'path' => '/movies/{id}',
+                'controller' => MovieTranslationController::class,
+                'openapi_context' => [
+                    'security' => [['apiKey' => []]],
+                    'summary' => 'Add a translation for the Movie resource (requires Api Key)',
+                    'description' => 'The json format will be dynamic with the front to select the right language',
+                    'requestBody' => [
+                        'content' => [
+                            'application/merge-patch+json' => [
+                                'schema' => [
+                                    'type' => 'object',
+                                    'properties' =>
+                                    [
+                                        'lang' => [
+                                            'type' => 'string',
+                                        ],
+                                        'translatedTitle' => [
+                                            'type' => 'string',
+                                        ],
+                                    ],
+                                ],
+                                'example' => [
+                                    'lang' => 'fr',
+                                    'translatedTitle' => 'leFrenchTitle'
+                                ]
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ],
         collectionOperations: [
             'GET' => [

@@ -32,8 +32,9 @@ security:
         success_handler: lexik_jwt_authentication.handler.authentication_success
         failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
+    # specific api call is protected on the ApiResource config in the Movie entity
     patchMovie:
-      pattern: ^/api/updatemovies
+      pattern: ^/api/movies
       provider: apiKeyProvider
       stateless: true
       custom_authenticators:
@@ -56,5 +57,3 @@ security:
 
     - { path: ^/register, roles: PUBLIC_ACCESS }
     - { path: ^/login, roles: PUBLIC_ACCESS }
-
-    - { path: ^/api/updatemovies, roles: IS_AUTHENTICATED_FULLY }
