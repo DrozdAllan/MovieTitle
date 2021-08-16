@@ -14,7 +14,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  */
 #[
     ApiResource(
-        normalizationContext: ['groups' => ['read:frTranslation']],
+        normalizationContext: ['groups' => ['read:translation']],
         paginationEnabled: false,
         itemOperations: [
             'GET' => [
@@ -31,7 +31,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
             ]
         ]
     ),
-    ApiFilter(SearchFilter::class, properties: ['title' => 'partial'])
+    ApiFilter(SearchFilter::class, properties: ['frTitle' => 'partial'])
 ]
 class FrTranslation
 {
@@ -45,14 +45,14 @@ class FrTranslation
     /**
      * @ORM\OneToOne(targetEntity=Movie::class, inversedBy="frTranslation", cascade={"persist", "remove"})
      */
-    #[Groups(['read:frTranslation'])]
+    #[Groups(['read:translation'])]
     private $movie;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:frTranslation', 'read:MovieDetail'])] 
-    private $title;
+    #[Groups(['read:translation', 'read:MovieDetail'])] 
+    private $frTitle;
 
     public function getId(): ?int
     {
@@ -71,14 +71,14 @@ class FrTranslation
         return $this;
     }
 
-    public function getTitle(): ?string
+    public function getFrTitle(): ?string
     {
-        return $this->title;
+        return $this->frTitle;
     }
 
-    public function setTitle(string $title): self
+    public function setFrTitle(string $frTitle): self
     {
-        $this->title = $title;
+        $this->frTitle = $frTitle;
 
         return $this;
     }

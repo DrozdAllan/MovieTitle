@@ -14,7 +14,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  */
 #[
     ApiResource(
-        normalizationContext: ['groups' => ['read:deTranslation']],
+        normalizationContext: ['groups' => ['read:translation']],
         paginationEnabled: false,
         itemOperations: [
             'GET' => [
@@ -31,7 +31,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
             ],
         ]
     ),
-    ApiFilter(SearchFilter::class, properties: ['title' => 'partial'])
+    ApiFilter(SearchFilter::class, properties: ['deTitle' => 'partial'])
 ]
 class DeTranslation
 {
@@ -45,14 +45,14 @@ class DeTranslation
     /**
      * @ORM\OneToOne(targetEntity=Movie::class, inversedBy="deTranslation", cascade={"persist", "remove"})
      */
-    #[Groups(['read:deTranslation'])]
+    #[Groups(['read:translation'])]
     private $movie;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:deTranslation', 'read:MovieDetail'])]
-    private $title;
+    #[Groups(['read:translation', 'read:MovieDetail'])]
+    private $deTitle;
 
     public function getId(): ?int
     {
@@ -71,14 +71,14 @@ class DeTranslation
         return $this;
     }
 
-    public function getTitle(): ?string
+    public function getDeTitle(): ?string
     {
-        return $this->title;
+        return $this->deTitle;
     }
 
-    public function setTitle(string $title): self
+    public function setDeTitle(string $deTitle): self
     {
-        $this->title = $title;
+        $this->deTitle = $deTitle;
 
         return $this;
     }

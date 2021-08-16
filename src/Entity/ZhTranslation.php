@@ -4,13 +4,13 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiFilter;
-use App\Repository\EnTranslationRepository;
+use App\Repository\ZhTranslationRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
- * @ORM\Entity(repositoryClass=EnTranslationRepository::class)
+ * @ORM\Entity(repositoryClass=ZhTranslationRepository::class)
  */
 #[
     ApiResource(
@@ -21,19 +21,19 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
                 'openapi_context' => [
                     'summary' => 'hidden'
                 ]
-            ]
+            ],
         ],
         collectionOperations: [
             'GET' => [
                 'openapi_context' => [
-                    'summary' => 'Get a movie from its english title'
+                    'summary' => 'Get a movie from its chinese title'
                 ]
-            ]
+            ],
         ]
     ),
-    ApiFilter(SearchFilter::class, properties: ['enTitle' => 'partial'])
+    ApiFilter(SearchFilter::class, properties: ['zhTitle' => 'partial'])
 ]
-class EnTranslation
+class ZhTranslation
 {
     /**
      * @ORM\Id
@@ -43,16 +43,16 @@ class EnTranslation
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Movie::class, inversedBy="enTranslation", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Movie::class, inversedBy="zhTranslation", cascade={"persist", "remove"})
      */
-    #[Groups(['read:translation'])] 
+    #[Groups(['read:translation'])]
     private $movie;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:translation', 'read:MovieDetail'])] 
-    private $enTitle;
+    #[Groups(['read:translation', 'read:MovieDetail'])]
+    private $zhTitle;
 
     public function getId(): ?int
     {
@@ -71,14 +71,14 @@ class EnTranslation
         return $this;
     }
 
-    public function getEnTitle(): ?string
+    public function getZhTitle(): ?string
     {
-        return $this->enTitle;
+        return $this->zhTitle;
     }
 
-    public function setEnTitle(string $enTitle): self
+    public function setZhTitle(string $zhTitle): self
     {
-        $this->enTitle = $enTitle;
+        $this->zhTitle = $zhTitle;
 
         return $this;
     }

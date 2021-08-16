@@ -22,7 +22,7 @@ class MovieTranslationController extends AbstractController
 
             $newFrenchTitle = new FrTranslation;
 
-            $newFrenchTitle->setTitle($apiRequest['translatedTitle']);
+            $newFrenchTitle->setFrTitle($apiRequest['translatedTitle']);
 
             $data->setFrTranslation($newFrenchTitle);
         }

@@ -4,13 +4,13 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiFilter;
-use App\Repository\EnTranslationRepository;
+use App\Repository\ItTranslationRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
- * @ORM\Entity(repositoryClass=EnTranslationRepository::class)
+ * @ORM\Entity(repositoryClass=ItTranslationRepository::class)
  */
 #[
     ApiResource(
@@ -21,19 +21,19 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
                 'openapi_context' => [
                     'summary' => 'hidden'
                 ]
-            ]
+            ],
         ],
         collectionOperations: [
             'GET' => [
                 'openapi_context' => [
-                    'summary' => 'Get a movie from its english title'
+                    'summary' => 'Get a movie from its italian title'
                 ]
-            ]
+            ],
         ]
     ),
-    ApiFilter(SearchFilter::class, properties: ['enTitle' => 'partial'])
+    ApiFilter(SearchFilter::class, properties: ['itTitle' => 'partial'])
 ]
-class EnTranslation
+class ItTranslation
 {
     /**
      * @ORM\Id
@@ -43,16 +43,16 @@ class EnTranslation
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Movie::class, inversedBy="enTranslation", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Movie::class, inversedBy="itTranslation", cascade={"persist", "remove"})
      */
-    #[Groups(['read:translation'])] 
+    #[Groups(['read:translation'])]
     private $movie;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:translation', 'read:MovieDetail'])] 
-    private $enTitle;
+    #[Groups(['read:translation', 'read:MovieDetail'])]
+    private $itTitle;
 
     public function getId(): ?int
     {
@@ -71,14 +71,14 @@ class EnTranslation
         return $this;
     }
 
-    public function getEnTitle(): ?string
+    public function getItTitle(): ?string
     {
-        return $this->enTitle;
+        return $this->itTitle;
     }
 
-    public function setEnTitle(string $enTitle): self
+    public function setItTitle(string $itTitle): self
     {
-        $this->enTitle = $enTitle;
+        $this->itTitle = $itTitle;
 
         return $this;
     }

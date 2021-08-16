@@ -62,7 +62,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
             ],
         ]
     ),
-    ApiFilter(SearchFilter::class, properties: ['title' => 'partial'])
+    ApiFilter(SearchFilter::class, properties: ['originalTitle' => 'partial'])
 ]
 class Movie
 {
@@ -77,8 +77,10 @@ class Movie
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:MovieDetail', 'read:CategoryDetail'])]
-    private $title;
+    #[
+        Groups(['read:MovieDetail', 'read:CategoryDetail', 'read:translation']),
+    ]
+    private $originalTitle;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -88,7 +90,7 @@ class Movie
     /**
      * @ORM\Column(type="text")
      */
-    #[Groups(['read:MovieDetail', 'read:CategoryDetail'])]
+    #[Groups(['read:MovieDetail', 'read:CategoryDetail', 'read:translation'])]
     private $synopsis;
 
     /**
@@ -115,6 +117,37 @@ class Movie
     #[Groups(['read:MovieDetail'])]
     private $frTranslation;
 
+    /**
+     * @ORM\OneToOne(targetEntity=ItTranslation::class, mappedBy="movie", cascade={"persist", "remove"})
+     */
+    #[Groups(['read:MovieDetail'])]
+    private $itTranslation;
+
+    /**
+     * @ORM\OneToOne(targetEntity=EsTranslation::class, mappedBy="movie", cascade={"persist", "remove"})
+     */
+    #[Groups(['read:MovieDetail'])]
+    private $esTranslation;
+
+    /**
+     * @ORM\OneToOne(targetEntity=JaTranslation::class, mappedBy="movie", cascade={"persist", "remove"})
+     */
+    #[Groups(['read:MovieDetail'])]
+    private $jaTranslation;
+
+    /**
+     * @ORM\OneToOne(targetEntity=ZhTranslation::class, mappedBy="movie", cascade={"persist", "remove"})
+     */
+    #[Groups(['read:MovieDetail'])]
+    private $zhTranslation;
+
+    /**
+     * @ORM\OneToOne(targetEntity=RuTranslation::class, mappedBy="movie", cascade={"persist", "remove"})
+     */
+    #[Groups(['read:MovieDetail'])]
+    private $ruTranslation;
+
+
     public function __construct()
     {
         $this->translations = new ArrayCollection();
@@ -125,14 +158,14 @@ class Movie
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getOriginalTitle(): ?string
     {
-        return $this->title;
+        return $this->originalTitle;
     }
 
-    public function setTitle(string $title): self
+    public function setOriginalTitle(string $originalTitle): self
     {
-        $this->title = $title;
+        $this->originalTitle = $originalTitle;
 
         return $this;
     }
@@ -235,6 +268,116 @@ class Movie
         }
 
         $this->frTranslation = $frTranslation;
+
+        return $this;
+    }
+
+    public function getItTranslation(): ?ItTranslation
+    {
+        return $this->itTranslation;
+    }
+
+    public function setItTranslation(?ItTranslation $itTranslation): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($itTranslation === null && $this->itTranslation !== null) {
+            $this->itTranslation->setMovie(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($itTranslation !== null && $itTranslation->getMovie() !== $this) {
+            $itTranslation->setMovie($this);
+        }
+
+        $this->itTranslation = $itTranslation;
+
+        return $this;
+    }
+
+    public function getEsTranslation(): ?EsTranslation
+    {
+        return $this->esTranslation;
+    }
+
+    public function setEsTranslation(?EsTranslation $esTranslation): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($esTranslation === null && $this->esTranslation !== null) {
+            $this->esTranslation->setMovie(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($esTranslation !== null && $esTranslation->getMovie() !== $this) {
+            $esTranslation->setMovie($this);
+        }
+
+        $this->esTranslation = $esTranslation;
+
+        return $this;
+    }
+
+    public function getJaTranslation(): ?JaTranslation
+    {
+        return $this->jaTranslation;
+    }
+
+    public function setJaTranslation(?JaTranslation $jaTranslation): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($jaTranslation === null && $this->jaTranslation !== null) {
+            $this->jaTranslation->setMovie(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($jaTranslation !== null && $jaTranslation->getMovie() !== $this) {
+            $jaTranslation->setMovie($this);
+        }
+
+        $this->jaTranslation = $jaTranslation;
+
+        return $this;
+    }
+
+    public function getZhTranslation(): ?ZhTranslation
+    {
+        return $this->zhTranslation;
+    }
+
+    public function setZhTranslation(?ZhTranslation $zhTranslation): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($zhTranslation === null && $this->zhTranslation !== null) {
+            $this->zhTranslation->setMovie(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($zhTranslation !== null && $zhTranslation->getMovie() !== $this) {
+            $zhTranslation->setMovie($this);
+        }
+
+        $this->zhTranslation = $zhTranslation;
+
+        return $this;
+    }
+
+    public function getRuTranslation(): ?RuTranslation
+    {
+        return $this->ruTranslation;
+    }
+
+    public function setRuTranslation(?RuTranslation $ruTranslation): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($ruTranslation === null && $this->ruTranslation !== null) {
+            $this->ruTranslation->setMovie(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($ruTranslation !== null && $ruTranslation->getMovie() !== $this) {
+            $ruTranslation->setMovie($this);
+        }
+
+        $this->ruTranslation = $ruTranslation;
 
         return $this;
     }
