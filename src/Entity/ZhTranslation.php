@@ -31,7 +31,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
             ],
         ]
     ),
-    ApiFilter(SearchFilter::class, properties: ['zhTitle' => 'partial'])
+    ApiFilter(SearchFilter::class, properties: ['title' => 'partial'])
 ]
 class ZhTranslation
 {
@@ -52,7 +52,7 @@ class ZhTranslation
      * @ORM\Column(type="string", length=255)
      */
     #[Groups(['read:translation', 'read:MovieDetail'])]
-    private $zhTitle;
+    private $title;
 
     public function getId(): ?int
     {
@@ -71,14 +71,14 @@ class ZhTranslation
         return $this;
     }
 
-    public function getZhTitle(): ?string
+    public function getTitle(): ?string
     {
-        return $this->zhTitle;
+        return $this->title;
     }
 
-    public function setZhTitle(string $zhTitle): self
+    public function setTitle(string $title): self
     {
-        $this->zhTitle = $zhTitle;
+        $this->title = $title;
 
         return $this;
     }

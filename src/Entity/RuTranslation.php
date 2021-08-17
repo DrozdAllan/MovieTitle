@@ -31,7 +31,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
             ],
         ]
     ),
-    ApiFilter(SearchFilter::class, properties: ['ruTitle' => 'partial'])
+    ApiFilter(SearchFilter::class, properties: ['title' => 'partial'])
 ]
 class RuTranslation
 {
@@ -52,7 +52,7 @@ class RuTranslation
      * @ORM\Column(type="string", length=255)
      */
     #[Groups(['read:translation', 'read:MovieDetail'])]
-    private $ruTitle;
+    private $title;
 
     public function getId(): ?int
     {
@@ -71,14 +71,14 @@ class RuTranslation
         return $this;
     }
 
-    public function getRuTitle(): ?string
+    public function getTitle(): ?string
     {
-        return $this->ruTitle;
+        return $this->title;
     }
 
-    public function setRuTitle(string $ruTitle): self
+    public function setTitle(string $title): self
     {
-        $this->ruTitle = $ruTitle;
+        $this->title = $title;
 
         return $this;
     }

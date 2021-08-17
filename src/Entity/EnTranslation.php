@@ -31,7 +31,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
             ]
         ]
     ),
-    ApiFilter(SearchFilter::class, properties: ['enTitle' => 'partial'])
+    ApiFilter(SearchFilter::class, properties: ['title' => 'partial'])
 ]
 class EnTranslation
 {
@@ -52,7 +52,7 @@ class EnTranslation
      * @ORM\Column(type="string", length=255)
      */
     #[Groups(['read:translation', 'read:MovieDetail'])] 
-    private $enTitle;
+    private $title;
 
     public function getId(): ?int
     {
@@ -71,14 +71,14 @@ class EnTranslation
         return $this;
     }
 
-    public function getEnTitle(): ?string
+    public function getTitle(): ?string
     {
-        return $this->enTitle;
+        return $this->title;
     }
 
-    public function setEnTitle(string $enTitle): self
+    public function setTitle(string $title): self
     {
-        $this->enTitle = $enTitle;
+        $this->title = $title;
 
         return $this;
     }

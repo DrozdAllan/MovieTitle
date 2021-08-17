@@ -31,7 +31,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
             ],
         ]
     ),
-    ApiFilter(SearchFilter::class, properties: ['jaTitle' => 'partial'])
+    ApiFilter(SearchFilter::class, properties: ['title' => 'partial'])
 ]
 class JaTranslation
 {
@@ -52,7 +52,7 @@ class JaTranslation
      * @ORM\Column(type="string", length=255)
      */
     #[Groups(['read:translation', 'read:MovieDetail'])]
-    private $jaTitle;
+    private $title;
 
     public function getId(): ?int
     {
@@ -71,14 +71,14 @@ class JaTranslation
         return $this;
     }
 
-    public function getJaTitle(): ?string
+    public function getTitle(): ?string
     {
-        return $this->jaTitle;
+        return $this->title;
     }
 
-    public function setJaTitle(string $jaTitle): self
+    public function setTitle(string $title): self
     {
-        $this->jaTitle = $jaTitle;
+        $this->title = $title;
 
         return $this;
     }

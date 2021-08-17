@@ -1,10 +1,12 @@
 <template>
-  <v-container>
+  <v-container class="center">
     <v-row>
       <v-spacer />
       <v-col>
         <p class="text-h4 text-center">Welcome to Movies Title !</p>
-        <p class="text-h5 text-center">Get the name of your favorite movie in every language</p>
+        <p class="text-h5 text-center">
+          Get the name of your favorite movie in every language
+        </p>
       </v-col>
       <v-col>
         <v-menu
@@ -48,9 +50,7 @@
           </v-card>
         </v-menu>
 
-
         <v-btn link to="account" v-else>Account</v-btn>
-
       </v-col>
     </v-row>
     <p>Movies of the week</p>
@@ -86,22 +86,30 @@
         src="https://picsum.photos/200/300"
       ></v-img>
     </v-row>
-    <v-row>
-      <v-col cols="6">
-        <v-form>
-          <v-text-field
-            v-model="movieTitle"
-            label="Search by title"
-            required
-            @keydown.enter="findMovie"
-          ></v-text-field>
-          <v-select
-            label="Filter with categories"
-            :items="movieCategories"
-          ></v-select>
-          <v-btn class="justify-center" @click="findMovie">search !</v-btn>
-        </v-form>
+    <v-row justify="center" v-if="searchStatus">
+      <v-spacer class="col-4" />
+      <v-col cols="2">
+        <v-text-field
+          v-model="title"
+          label="Title of the movie"
+          required
+          @keypress.enter="findMovie"
+        ></v-text-field>
       </v-col>
+      <v-col cols="2">
+        <v-select
+          v-model="titleLanguage"
+          :items="languages"
+          label="Language of the title"
+        ></v-select>
+      </v-col>
+      <v-spacer class="col-4" />
+      <v-btn @click="findMovie">search !</v-btn>
+    </v-row>
+    <v-row v-else>
+      <v-btn @click="resetSearch">new search</v-btn>
+    </v-row>
+    <v-row>
       <v-col v-if="searchResult !== ''">
         <v-card>
           <v-card-title>
@@ -110,9 +118,9 @@
             ></v-card-title
           >
           <v-card-text v-for="result in searchResult" :key="result.id">
-            Name: {{ result.title }} Synopsis: {{ result.synopsis }}
+            Title: {{ result.title }} Original Title: {{ result.movie.originalTitle }} Synopsis: {{ result.movie.synopsis }}
             <router-link
-              :to="{ name: 'MovieDetail', params: { id: result.id } }"
+              :to="{ name: 'MovieDetail', params: { slug: result.movie.slug } }"
               >Details</router-link
             >
           </v-card-text>
@@ -127,35 +135,41 @@
     name: "Home",
     props: {},
     data: () => ({
-      movieTitle: "",
-      movieSynopsis: "",
-      movieCategory: "",
+      searchStatus: true,
+      title: "",
+      titleLanguage: "",
       searchResult: "",
       numberResult: "",
-      movieCategories: ["Western", "Noir", "Fantasy"],
       admin: false,
       username: "",
       password: "",
       JWToken: "",
+      languages: [
+        { text: "en", value: "en" },
+        { text: "fr", value: "fr" },
+        { text: "de", value: "de" },
+      ],
     }),
     methods: {
       findMovie() {
-        const parameters = {};
-        if (this.movieSynopsis !== "") {
-          parameters.synopsis = this.movieSynopsis;
-        } else if (this.movieTitle !== "") {
-          parameters.title = this.movieTitle;
-        }
+        this.searchStatus = false;
+
         this.$axios({
           method: "GET",
-          url: "/api/movies",
-          params: parameters,
+          url: "/api/" + this.titleLanguage + "_translations",
+          params: {
+            title: this.title,
+          },
         }).then((response) => {
           const data = response.data;
           console.log(data);
           this.searchResult = data["hydra:member"];
           this.numberResult = data["hydra:totalItems"];
         });
+      },
+      resetSearch() {
+        this.searchStatus = true;
+        this.title = "";
       },
       login() {
         this.$axios({
@@ -180,6 +194,6 @@
     },
     mounted() {
       this.JWToken = this.$cookies.get("JWToken");
-    }
+    },
   };
 </script>

@@ -2,12 +2,37 @@
 
 namespace App\Entity;
 
-use App\Repository\EsTranslationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use App\Repository\EsTranslationRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ORM\Entity(repositoryClass=EsTranslationRepository::class)
  */
+#[
+    ApiResource(
+        normalizationContext: ['groups' => ['read:translation']],
+        paginationEnabled: false,
+        itemOperations: [
+            'GET' => [
+                'openapi_context' => [
+                    'summary' => 'hidden'
+                ]
+            ]
+        ],
+        collectionOperations: [
+            'GET' => [
+                'openapi_context' => [
+                    'summary' => 'Get a movie from its spanish title'
+                ]
+            ]
+        ]
+    ),
+    ApiFilter(SearchFilter::class, properties: ['title' => 'partial'])
+]
 class EsTranslation
 {
     /**
@@ -20,12 +45,14 @@ class EsTranslation
     /**
      * @ORM\OneToOne(targetEntity=Movie::class, inversedBy="esTranslation", cascade={"persist", "remove"})
      */
+    #[Groups(['read:translation'])]
     private $movie;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $esTitle;
+    #[Groups(['read:translation', 'read:MovieDetail'])]
+    private $title;
 
     public function getId(): ?int
     {
@@ -44,14 +71,14 @@ class EsTranslation
         return $this;
     }
 
-    public function getEsTitle(): ?string
+    public function getTitle(): ?string
     {
-        return $this->esTitle;
+        return $this->title;
     }
 
-    public function setEsTitle(string $esTitle): self
+    public function setTitle(string $title): self
     {
-        $this->esTitle = $esTitle;
+        $this->Title = $title;
 
         return $this;
     }

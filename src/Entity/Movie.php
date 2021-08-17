@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\MovieRepository;
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\MovieTranslationController;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,13 +18,19 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 #[
     ApiResource(
         normalizationContext: ['groups' => ['read:MovieDetail']],
-        paginationItemsPerPage: 1,
+        paginationEnabled: false,
         itemOperations: [
-            'GET',
+            'GET' => [
+                'method' => 'GET',
+                'path' => '/movies/{slug}',
+                'openapi_context' => [
+                    'summary' => 'Retrieves a movie resource from its slug',
+                ],
+            ],
             'PATCH' => [
                 'security' => "is_granted('ROLE_USER')",
                 'method' => 'PATCH',
-                'path' => '/movies/{id}',
+                'path' => '/movies/{slug}',
                 'controller' => MovieTranslationController::class,
                 'openapi_context' => [
                     'security' => [['apiKey' => []]],
@@ -57,12 +64,12 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
         collectionOperations: [
             'GET' => [
                 'openapi_context' => [
-                    'summary' => 'Get a Movie from its original name'
+                    'summary' => 'hidden'
                 ]
             ],
         ]
     ),
-    ApiFilter(SearchFilter::class, properties: ['originalTitle' => 'partial'])
+    ApiFilter(SearchFilter::class, properties: ['slug' => 'exact'])
 ]
 class Movie
 {
@@ -71,7 +78,10 @@ class Movie
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:MovieDetail', 'read:CategoryDetail'])]
+    #[
+        ApiProperty(identifier: false),
+        Groups(['read:MovieDetail', 'read:CategoryDetail'])
+    ]
     private $id;
 
     /**
@@ -85,6 +95,10 @@ class Movie
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[
+        ApiProperty(identifier: true),
+        Groups(['read:translation'])
+    ]
     private $slug;
 
     /**

@@ -31,7 +31,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
             ],
         ]
     ),
-    ApiFilter(SearchFilter::class, properties: ['deTitle' => 'partial'])
+    ApiFilter(SearchFilter::class, properties: ['title' => 'partial'])
 ]
 class DeTranslation
 {
@@ -52,7 +52,7 @@ class DeTranslation
      * @ORM\Column(type="string", length=255)
      */
     #[Groups(['read:translation', 'read:MovieDetail'])]
-    private $deTitle;
+    private $title;
 
     public function getId(): ?int
     {
@@ -71,14 +71,14 @@ class DeTranslation
         return $this;
     }
 
-    public function getDeTitle(): ?string
+    public function getTitle(): ?string
     {
-        return $this->deTitle;
+        return $this->title;
     }
 
-    public function setDeTitle(string $deTitle): self
+    public function setTitle(string $title): self
     {
-        $this->deTitle = $deTitle;
+        $this->title = $title;
 
         return $this;
     }
