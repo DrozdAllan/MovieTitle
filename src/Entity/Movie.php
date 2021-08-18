@@ -161,6 +161,11 @@ class Movie
     #[Groups(['read:MovieDetail'])]
     private $ruTranslation;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $releaseDate;
+
 
     public function __construct()
     {
@@ -392,6 +397,18 @@ class Movie
         }
 
         $this->ruTranslation = $ruTranslation;
+
+        return $this;
+    }
+
+    public function getReleaseDate(): ?string
+    {
+        return $this->releaseDate;
+    }
+
+    public function setReleaseDate(string $releaseDate): self
+    {
+        $this->releaseDate = $releaseDate;
 
         return $this;
     }
