@@ -68,8 +68,22 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
                 'method' => 'GET',
                 'path' => '/movies/randomize',
                 'controller' => MovieRandomizeController::class,
+                'read' => false,
+                'filters' => [],
                 'openapi_context' => [
-                    'summary' => 'Retrieves a certain number of Movies taken randomly'
+                    'summary' => 'Retrieves a number of random Movies',
+                    'parameters' => [
+                        [
+                            'in' => 'query',
+                            'name' => 'number',
+                            'schema' => [
+                                'type' => 'integer',
+                                'maximum' => 5,
+                                'minimum' => 1,
+                            ],
+                            'description' => 'movies to retrieve (min: 1, max: 5)'
+                        ]
+                    ],
                 ]
             ],
         ]

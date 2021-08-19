@@ -21,10 +21,7 @@ class MovieRandomizeController extends AbstractController
     {
         $number = $request->query->get('number');
 
-        $max = $movieRepository->count([]);
-
-        $randomMovies = $movieRepository->findRandomByNumber($number, $max);
-        // dd($number);
+        $randomMovies = $movieRepository->findRandomByNumber($number);
 
         return $randomMovies;
     }
