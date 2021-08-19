@@ -7,6 +7,7 @@ use App\Repository\MovieRepository;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\MovieRandomizeController;
 use App\Controller\MovieTranslationController;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -31,6 +32,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
                 'security' => "is_granted('ROLE_USER')",
                 'method' => 'PATCH',
                 'path' => '/movies/{slug}',
+                'requirements' => ['slug' => '\d+'],
                 'controller' => MovieTranslationController::class,
                 'openapi_context' => [
                     'security' => [['apiKey' => []]],
@@ -62,9 +64,12 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
             ],
         ],
         collectionOperations: [
-            'GET' => [
+            'RANDOMIZE' => [
+                'method' => 'GET',
+                'path' => '/movies/randomize',
+                'controller' => MovieRandomizeController::class,
                 'openapi_context' => [
-                    'summary' => 'hidden'
+                    'summary' => 'Retrieves a certain number of Movies taken randomly'
                 ]
             ],
         ]

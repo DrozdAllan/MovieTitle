@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Movie;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Movie|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +47,17 @@ class MovieRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findRandomByNumber($number)
+    {
+
+        dump('nombre demandé', $number);
+
+        $query = $this->createQueryBuilder('m');
+
+        $query->addSelect('RAND() as HIDDEN rand')->setMaxResults($number)
+        ->orderBy('rand');
+
+        return $query->getQuery()->getResult();
+    }
 }
