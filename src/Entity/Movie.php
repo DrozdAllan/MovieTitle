@@ -26,13 +26,24 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
                 'path' => '/movies/{slug}',
                 'openapi_context' => [
                     'summary' => 'Retrieves a movie resource from its slug',
+                    'description' => 'Note that slugs are always from english titles',
+                    'parameters' => [
+                        [
+                            'in' => 'path',
+                            'name' => 'slug',
+                            'schema' => [
+                                'type' => 'string',
+                            ],
+                            'description' => 'english title in lowercase, dash instead of gap'
+                        ]
+                    ],
                 ],
             ],
             'PATCH' => [
                 'security' => "is_granted('ROLE_USER')",
                 'method' => 'PATCH',
                 'path' => '/movies/{slug}',
-                'requirements' => ['slug' => '\d+'],
+                // 'requirements' => ['slug' => '\d+'],
                 'controller' => MovieTranslationController::class,
                 'openapi_context' => [
                     'security' => [['apiKey' => []]],
@@ -183,7 +194,14 @@ class Movie
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:MovieDetail'])]
     private $releaseDate;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    #[Groups(['read:MovieDetail'])]
+    private $poster;
 
 
     public function __construct()
@@ -428,6 +446,18 @@ class Movie
     public function setReleaseDate(string $releaseDate): self
     {
         $this->releaseDate = $releaseDate;
+
+        return $this;
+    }
+
+    public function getPoster(): ?string
+    {
+        return $this->poster;
+    }
+
+    public function setPoster(?string $poster): self
+    {
+        $this->poster = $poster;
 
         return $this;
     }

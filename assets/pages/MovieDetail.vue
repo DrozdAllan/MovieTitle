@@ -1,11 +1,20 @@
 <template>
   <v-container>
     <v-card v-if="Movie">
-      <v-card-title>
-        {{ Movie.originalTitle }}
-      </v-card-title>
       <v-card-text>
-        Synopsis: {{ Movie.synopsis }}
+        <v-row>
+          <v-col>
+            <p class="font-weight-bold text-h4">{{ Movie.originalTitle }} ({{ Movie.releaseDate }})</p>
+            <p>{{ Movie.synopsis }}</p>
+          </v-col>
+          <v-col>
+            <v-img v-if="Movie.poster"
+              height="400"
+              width="250"
+              :src="require('../../src/images/'+ Movie.poster)"
+            ></v-img>
+          </v-col>
+        </v-row>
         <v-simple-table>
           <template v-slot:default>
             <thead>
@@ -21,42 +30,58 @@
             <tbody>
               <tr>
                 <td>En</td>
-                <td v-if="Movie.enTranslation" >{{ Movie.enTranslation.title }}</td>
+                <td v-if="Movie.enTranslation">
+                  {{ Movie.enTranslation.title }}
+                </td>
                 <td v-else>not available</td>
               </tr>
               <tr>
                 <td>Fr</td>
-                <td v-if="Movie.frTranslation" >{{ Movie.frTranslation.title }}</td>
+                <td v-if="Movie.frTranslation">
+                  {{ Movie.frTranslation.title }}
+                </td>
                 <td v-else>not available</td>
               </tr>
               <tr>
                 <td>De</td>
-                <td v-if="Movie.deTranslation" >{{ Movie.deTranslation.title }}</td>
+                <td v-if="Movie.deTranslation">
+                  {{ Movie.deTranslation.title }}
+                </td>
                 <td v-else>not available</td>
               </tr>
               <tr>
                 <td>Es</td>
-                <td v-if="Movie.esTranslation" >{{ Movie.esTranslation.title }}</td>
+                <td v-if="Movie.esTranslation">
+                  {{ Movie.esTranslation.title }}
+                </td>
                 <td v-else>not available</td>
               </tr>
               <tr>
                 <td>Zh</td>
-                <td v-if="Movie.zhTranslation" >{{ Movie.zhTranslation.title }}</td>
+                <td v-if="Movie.zhTranslation">
+                  {{ Movie.zhTranslation.title }}
+                </td>
                 <td v-else>not available</td>
               </tr>
               <tr>
                 <td>It</td>
-                <td v-if="Movie.itTranslation" >{{ Movie.itTranslation.title }}</td>
+                <td v-if="Movie.itTranslation">
+                  {{ Movie.itTranslation.title }}
+                </td>
                 <td v-else>not available</td>
               </tr>
               <tr>
                 <td>Ja</td>
-                <td v-if="Movie.jaTranslation" >{{ Movie.jaTranslation.title }}</td>
+                <td v-if="Movie.jaTranslation">
+                  {{ Movie.jaTranslation.title }}
+                </td>
                 <td v-else>not available</td>
               </tr>
               <tr>
                 <td>Ru</td>
-                <td v-if="Movie.ruTranslation" >{{ Movie.ruTranslation.title }}</td>
+                <td v-if="Movie.ruTranslation">
+                  {{ Movie.ruTranslation.title }}
+                </td>
                 <td v-else>not available</td>
               </tr>
             </tbody>
