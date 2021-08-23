@@ -37,7 +37,7 @@ class SecurityController extends AbstractController
         return new JsonResponse(null, response::HTTP_OK);
     }
 
-     /**
+    /**
      * @Route("/decodeJWT", name="decodeJWT", methods={"POST"})
      */
     public function decodeJWT(Request $request, JWTEncoderInterface $jWTEncoder): Response
@@ -68,5 +68,14 @@ class SecurityController extends AbstractController
     public function logout()
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    }
+
+    /**
+     * @Route("/", name="app_redirection")
+     */
+    public function redirection()
+    {
+        // redirects to the "vue" route
+        return $this->redirectToRoute('vue', ['vueRouting' => '']);
     }
 }

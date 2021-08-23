@@ -17,7 +17,20 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 #[
     ApiResource(
         normalizationContext: ['groups' => ['read:CategoryDetail']],
-        itemOperations: ['GET']
+        itemOperations: [
+            'GET' => [
+                'openapi_context' => [
+                    'summary' => 'hidden',
+                ],
+            ],
+        ],
+        collectionOperations: [
+            'GET' =>               [
+                'openapi_context' => [
+                    'summary' => 'hidden',
+                ],
+            ],
+        ],
     ),
     ApiFilter(SearchFilter::class, properties: ['name' => 'partial'])
 ]

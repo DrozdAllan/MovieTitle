@@ -127,7 +127,7 @@ class Movie
      */
     #[
         ApiProperty(identifier: true),
-        Groups(['read:translation'])
+        Groups(['read:MovieDetail', 'read:translation'])
     ]
     private $slug;
 
