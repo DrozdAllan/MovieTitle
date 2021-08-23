@@ -20,3 +20,4 @@ class Rand extends \Doctrine\ORM\Query\AST\Functions\FunctionNode
         return 'RAND()';
     }
 }
+ 
