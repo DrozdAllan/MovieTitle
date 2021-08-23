@@ -1,7 +1,6 @@
 <?php
 
-
-namespace App\Doctrine\Function;
+namespace App\Doctrine;
 
 use Doctrine\ORM\Query\Lexer;
 
