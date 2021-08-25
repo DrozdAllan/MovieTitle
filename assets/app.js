@@ -8,7 +8,7 @@
 import "./styles/app.css";
 
 import Vue from "vue";
-import VueCookies from 'vue-cookies';
+import VueCookies from "vue-cookies";
 import VueRouter from "vue-router";
 import vuetify from "./plugins/vuetify";
 import axios from "axios";
@@ -28,12 +28,13 @@ const routes = [
     component: CategoryDetail,
     name: "CategoryDetail",
   },
+  // { path: "/api/docs", redirect: "/api/docs" },
   { path: "*", redirect: "/" },
 ];
 
 const router = new VueRouter({
   mode: "history",
-  base: "/app",
+  base: "/",
   routes,
   scrollBehavior(to, from, savedPosition) {
     return { x: 0, y: 0 };
