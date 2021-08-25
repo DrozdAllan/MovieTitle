@@ -69,13 +69,4 @@ class SecurityController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
-
-    // /**
-    //  * @Route("/", name="app_redirection")
-    //  */
-    // public function redirection()
-    // {
-    //     // redirects to the "vue" route
-    //     return $this->redirectToRoute('vue', ['vueRouting' => '']);
-    // }
 }
