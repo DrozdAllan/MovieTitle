@@ -51,8 +51,6 @@ class MovieRepository extends ServiceEntityRepository
     public function findRandomByNumber($number)
     {
 
-        dump('nombre demandé', $number);
-
         $query = $this->createQueryBuilder('m');
 
         $query->addSelect('RAND() as HIDDEN rand')->setMaxResults($number)
