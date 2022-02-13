@@ -13,32 +13,32 @@ import VueRouter from "vue-router";
 import vuetify from "./plugins/vuetify";
 import axios from "axios";
 import Home from "./pages/Home";
-import Register from "./pages/Register";
-import Account from "./pages/Account";
+// import Register from "./pages/Register";
+// import Account from "./pages/Account";
 import MovieDetail from "./pages/MovieDetail";
 import CategoryDetail from "./pages/CategoryDetail";
 
 const routes = [
-  { path: "/", component: Home, name: "Home" },
-  { path: "/register", component: Register, name: "Register" },
-  { path: "/account", component: Account, name: "Account" },
-  { path: "/movie/:slug", component: MovieDetail, name: "MovieDetail" },
-  {
-    path: "/category/:id",
-    component: CategoryDetail,
-    name: "CategoryDetail",
-  },
-  // { path: "/api/docs", redirect: "/api/docs" },
-  { path: "*", redirect: "/" },
+	{ path: "/", component: Home, name: "Home" },
+	// { path: "/register", component: Register, name: "Register" },
+	// { path: "/account", component: Account, name: "Account" },
+	{ path: "/movie/:slug", component: MovieDetail, name: "MovieDetail" },
+	{
+		path: "/category/:id",
+		component: CategoryDetail,
+		name: "CategoryDetail",
+	},
+	// { path: "/api/docs", redirect: "/api/docs" },
+	{ path: "*", redirect: "/" },
 ];
 
 const router = new VueRouter({
-  mode: "history",
-  base: "/",
-  routes,
-  scrollBehavior(to, from, savedPosition) {
-    return { x: 0, y: 0 };
-  },
+	mode: "history",
+	base: "/",
+	routes,
+	scrollBehavior(to, from, savedPosition) {
+		return { x: 0, y: 0 };
+	},
 });
 
 Vue.use(VueRouter);
@@ -47,6 +47,6 @@ Vue.use(VueCookies);
 Vue.prototype.$axios = axios;
 
 new Vue({
-  router,
-  vuetify,
+	router,
+	vuetify,
 }).$mount("#app");
