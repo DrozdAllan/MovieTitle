@@ -65,6 +65,13 @@
 						Randomize
 					</v-btn>
 				</v-row>
+				<v-row
+					v-if="randomMovie !== null"
+					justify="center"
+					class="text-center text-caption"
+				>
+					Click the poster to get details
+				</v-row>
 				<v-row v-if="randomMovie !== null" justify="center">
 					<router-link
 						:to="{
@@ -74,7 +81,7 @@
 					>
 						<v-img
 							max-height="500"
-							max-width="300"
+							max-width="250"
 							:src="
 								require('../../src/images/' +
 									randomMovie.poster)
@@ -143,11 +150,11 @@
 								:key="result.id"
 							>
 								<span>
-									Title: {{ result.title }} <br />
-									Original Title:
+									<span class="font-weight-bold"> Title: </span> {{ result.title }} <br />
+									<span class="font-weight-bold"> Original Title: </span>
 									{{ result.movie.originalTitle }}
 									<br />
-									Synopsis:
+									<span class="font-weight-bold"> Synopsis: </span>
 									{{ result.movie.synopsis }}
 									<router-link
 										:to="{
